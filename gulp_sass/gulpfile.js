@@ -55,9 +55,6 @@ gulp.task('sass', function() {
 	// find the sass files and extentions. return make browserSync wait for sass to be processed
 	return gulp.src('./_/components/sass/**/*.{scss,sass}')
 
-	// error handling
-	.pipe(sass().on('error', sass.logError))
-
 	// initialise sourcemaps
 	.pipe(sourcemaps.init())
 	
@@ -65,6 +62,8 @@ gulp.task('sass', function() {
 	.pipe(sass({
 		errLogToConsole: true
 	}))
+
+	.on('error', onError)
 
 	// compile sass the source map 
 	.pipe(sourcemaps.write())
@@ -77,5 +76,11 @@ gulp.task('sass', function() {
 
 });//gulp sass
 
+function onError(err) {
+  console.log(err);
+  this.emit('end');
+}
+
 // Create Gulp Default Task
 gulp.task('default', ['serve']);
+
