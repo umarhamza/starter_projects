@@ -1,0 +1,21 @@
+{
+  "name": "gulp-starter",
+  "version": "1.0.0",
+  "description": "HTML, CSS with Gulp and Browser Sync",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/umarhamza"
+  },
+  "keywords": [
+    "html",
+    "css",
+    "Gulp"
+  ],
+  "author": "Umar Hamza",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.9.1",
+    "gulp": "^3.9.0"
+  }
+}
