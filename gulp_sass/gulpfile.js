@@ -74,7 +74,7 @@ gulp.task('sass', function() {
 	.pipe(sourcemaps.write())
 
 	// output css into the css dir
-	.pipe(gulp.dest('./_/css'))
+	.pipe(gulp.dest('./_/css/uncompressed'))
 
 	// add to browsersync stream & live reload using BrowserSync
 	.pipe( browserSync.stream() );
@@ -83,12 +83,12 @@ gulp.task('sass', function() {
 
 // Combine Media Queries
 gulp.task('combineMq', function () {
-    return gulp.src('test.css')
+    return gulp.src('./_/css/uncompressed/style.css')
     .pipe(combineMq({
         beautify: false
     }))
-    .pipe(gulp.dest('tmp'));
-});
+    .pipe(gulp.dest('./_/css'));
+});//mq combine
 
 function onError(err) {
   console.log(err);
