@@ -3,6 +3,7 @@ var sass 			= require('gulp-sass');
 var sourcemaps 		= require('gulp-sourcemaps');
 var uglify 			= require('gulp-uglify');
 var browserSync 	= require('browser-sync').create();
+var combineMq = require('gulp-combine-mq');
 
 // Gulp BrowserSync Task
 // Static Server + watching scss/html files
@@ -10,7 +11,7 @@ gulp.task('serve', function() {
 
 	// initialise browserSync
 	browserSync.init({
-		
+
 		// add a server dir
 		server: {
 			baseDir: "./"
@@ -25,7 +26,7 @@ gulp.task('serve', function() {
 	});// browser sync init
 
 	// watch files and when it changes, run tasks
-  	gulp.watch('./_/components/sass/**/*.{scss,sass}', ['sass']);
+  	gulp.watch('./_/components/sass/**/*.{scss,sass}', ['sass', 'combineMq']);
   	gulp.watch('./_/components/js/*.js', ['uglify']);
   	gulp.watch('*.html').on('change', browserSync.reload);
 
@@ -42,16 +43,16 @@ gulp.task('uglify', function() {
 	.pipe(uglify())
 
 	.on('error', onError)
-	
+
 	// output js into js dir
 	.pipe(gulp.dest('./_/js'))
-	
+
 	// add to browsersync stream & live reload using BrowserSync
 	.pipe( browserSync.stream() );
 
 }); // uglify
 
-// Gulp Sass Task 
+// Gulp Sass Task
 gulp.task('sass', function() {
 
 	// find the sass files and extentions. return make browserSync wait for sass to be processed
@@ -59,7 +60,7 @@ gulp.task('sass', function() {
 
 	// initialise sourcemaps
 	.pipe(sourcemaps.init())
-	
+
 	// compile sass into css. Also add errors to console
 	.pipe(sass({
 		errLogToConsole: true
@@ -67,7 +68,7 @@ gulp.task('sass', function() {
 
 	.on('error', onError)
 
-	// compile sass the source map 
+	// compile sass the source map
 	.pipe(sourcemaps.write())
 
 	// output css into the css dir
@@ -78,6 +79,15 @@ gulp.task('sass', function() {
 
 });//gulp sass
 
+// Combine Media Queries
+gulp.task('combineMq', function () {
+    return gulp.src('test.css')
+    .pipe(combineMq({
+        beautify: false
+    }))
+    .pipe(gulp.dest('tmp'));
+});
+
 function onError(err) {
   console.log(err);
   this.emit('end');
@@ -85,4 +95,3 @@ function onError(err) {
 
 // Create Gulp Default Task
 gulp.task('default', ['serve']);
-
