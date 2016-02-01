@@ -12,6 +12,8 @@ gulp.task('serve', function() {
 	// initialise browserSync
 	browserSync.init({
 
+		notify: false,
+
 		// add a server dir
 		server: {
 			baseDir: "./"
