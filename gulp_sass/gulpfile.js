@@ -28,7 +28,8 @@ gulp.task('serve', function() {
 	});// browser sync init
 
 	// watch files and when it changes, run tasks
-  	gulp.watch('./_/components/sass/**/*.{scss,sass}', ['sass', 'combineMq']);
+		gulp.watch('./_/components/sass/**/*.{scss,sass}', ['sass']);
+  	gulp.watch('./_/css/uncompressed/style.css', ['combineMq']);
   	gulp.watch('./_/components/js/*.js', ['uglify']);
   	gulp.watch('*.html').on('change', browserSync.reload);
 
@@ -85,9 +86,12 @@ gulp.task('sass', function() {
 gulp.task('combineMq', function () {
     return gulp.src('./_/css/uncompressed/style.css')
     .pipe(combineMq({
-        beautify: false
+        beautify: true
     }))
-    .pipe(gulp.dest('./_/css'));
+    .pipe(gulp.dest('./_/css'))
+
+		.pipe( browserSync.stream() );
+
 });//mq combine
 
 function onError(err) {
